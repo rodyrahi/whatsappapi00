@@ -1,0 +1,15 @@
+2022/12/07-17:07:46.966 3a78 Reusing MANIFEST C:\Users\Home\Downloads\test\.wwebjs_auth\session\Default\Local Storage\leveldb/MANIFEST-000001
+2022/12/07-17:07:46.967 3a78 Recovering log #35
+2022/12/07-17:07:46.967 3a78 Reusing old log C:\Users\Home\Downloads\test\.wwebjs_auth\session\Default\Local Storage\leveldb/000035.log 
+2022/12/07-17:38:05.721 4480 Level-0 table #39: started
+2022/12/07-17:38:05.725 4480 Level-0 table #39: 21602 bytes OK
+2022/12/07-17:38:05.726 4480 Delete type=0 #35
+2022/12/07-17:38:05.727 4480 Compacting 4@0 + 1@1 files
+2022/12/07-17:38:05.731 4480 Generated table #40@0: 55 keys, 7021 bytes
+2022/12/07-17:38:05.731 4480 Compacted 4@0 + 1@1 files => 7021 bytes
+2022/12/07-17:38:05.732 4480 compacted to: files[ 0 1 0 0 0 0 0 ]
+2022/12/07-17:38:05.732 4480 Delete type=2 #27
+2022/12/07-17:38:05.732 4480 Delete type=2 #29
+2022/12/07-17:38:05.732 4480 Delete type=2 #32
+2022/12/07-17:38:05.732 4480 Delete type=2 #36
+2022/12/07-17:38:05.732 4480 Delete type=2 #39
