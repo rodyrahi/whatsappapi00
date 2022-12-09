@@ -32,9 +32,13 @@ list.push(obj);
 
 console.log(list);
 
-const { Client, MessageMedia, ClientInfo , Buttons, LocalAuth } = require("whatsapp-web.js");
-
-
+const {
+  Client,
+  MessageMedia,
+  ClientInfo,
+  Buttons,
+  LocalAuth,
+} = require("whatsapp-web.js");
 
 const client = new Client({
   restartOnAuthFail: true,
@@ -49,13 +53,12 @@ const client = new Client({
       "--no-zygote",
       "--single-process", // <- this one doesn't works in Windows
       "--disable-gpu",
-      '--use-gl=egl',
+      "--use-gl=egl",
     ],
   },
   authStrategy: new LocalAuth(),
 });
 client.initialize();
-
 
 io.on("connection", function (socket) {
   let code;
@@ -65,35 +68,13 @@ io.on("connection", function (socket) {
     code = qr;
     code.toDataURL(qr, (err, url) => {
       socket.emit("tx", url);
-      
     });
   });
 
   client.on("ready", () => {
-    
-    socket.emit("ready",  'Hii bot is ready');
+    socket.emit("ready", "Hii bot is ready");
     console.log("Client is ready!");
-    
   });
-
-  // var mysql = require('mysql');
-
-  // var con = mysql.createConnection({
-  //     host: "sql6.freesqldatabase.com",
-  //     user: "sql6581377",
-  //     password: "X4ntwTmbID",
-  //     database: "sql6581377"
-  // });
-
-  // con.connect(function (err) {
-  //     if (err) throw err;
-  //     console.log("Connected!");
-  // var sql = "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')";
-  // con.query(sql, function (err, result) {
-  //     if (err) throw err;
-  //     console.log("1 record inserted");
-  // });
-  // });
 });
 
 //assuming we only have 1 chat
@@ -150,6 +131,9 @@ function find_op(m) {
 
 client.on("message", async (msg) => {
   console.log("MESSAGE RECEIVED", msg.body);
+
+  message;
+
   // let mes = " ";
 
   // client
@@ -172,54 +156,77 @@ client.on("message", async (msg) => {
   // let button = new Buttons('Button body',[{body:'hello im raj'},{body:'bt2'},{body:'bt3'}],'hey everyone','chose please');
   // client.sendMessage(msg.from, button);
 
-  function option() {
-    return;
-  }
-
-  if (!find_op(msg)) {
-    let button = new Buttons(
-      data_m[0],
-      [
-        { body: data_op[0] },
-        { body: data_op2[0] },
-        { body: "Try clicking me", url: "www.google.in" },
-      ],
-      data_t[0],
-      data_f[0]
-    );
-    client.sendMessage(msg.from, button);
-  }
+  // if (!find_op(msg)) {
+  //   let button = new Buttons(
+  //     data_m[0],
+  //     [
+  //       { body: data_op[0] },
+  //       { body: data_op2[0] },
+  //       { body: "Try clicking me", url: "www.google.in" },
+  //     ],
+  //     data_t[0],
+  //     data_f[0]
+  //   );
+  //   client.sendMessage(msg.from, button);
+  //   }
 });
-
-
 
 app.use(express.urlencoded());
 app.io = io;
 app.set("view engine", "ejs");
 app.get("/", function (req, res) {
-  
   res.render("index", { data: data_n, message: data_m });
 });
+var mysql = require("mysql");
 
-app.post("/", function (req, res) {
-  res.redirect("/");
-  let data = req.body;
-  data_t.push(data.question_title);
-  data_f.push(data.question_footer);
-  data_n.push(data.name);
-  data_m.push(data.question);
-  data_op.push(data.op1);
-  data_opq.push(data.op1_q);
-
-  console.log(data_n);
-  console.log(data_m);
-  console.log(data_opq);
-
-  console.log(data_t);
-  console.log(data_f);
-
-  console.log(data);
+var con = mysql.createConnection({
+  host: "181.215.79.245",
+  user: "rajvendra_admin",
+  password: "Kamingo@1111",
+  database: "admin_sugardb",
 });
+
+con.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+  if (err) throw err;
+
+
+});
+function insert_questions(name ,tittle ,  message  ,footer , op1 ,op2 ,op3 , user ) {
+  var sql = "INSERT INTO questions (name , message,tittle) VALUES ?";
+  var values = [[name] , [message] , [tittle] ];
+
+  con.query(sql, [values], function (err, result) {
+    if (err) throw err;
+    console.log("Number of records inserted: " + result.affectedRows);
+  });
+}
+
+
+
+  app.post("/", function (req, res) {
+    res.redirect("/");
+    let data = req.body;
+    insert_questions(data.name , data.question ,  data.question_title , data.question_footer);
+    data_t.push(data.question_title);
+    data_f.push(data.question_footer);
+    data_n.push(data.name);
+    data_m.push(data.question);
+    data_op.push(data.op1);
+    data_opq.push(data.op1_q);
+
+    console.log(data_n);
+    console.log(data_m);
+    console.log(data_opq);
+
+    console.log(data_t);
+    console.log(data_f);
+
+    console.log(data);
+  });
+
+
 
 server.listen(port, function () {
   console.log("App running on *: " + port);

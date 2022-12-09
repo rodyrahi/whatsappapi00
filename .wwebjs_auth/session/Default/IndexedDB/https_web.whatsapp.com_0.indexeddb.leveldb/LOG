@@ -1,43 +1,66 @@
-2022/12/07-17:07:48.737 47f8 Reusing MANIFEST C:\Users\Home\Downloads\test\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
-2022/12/07-17:07:48.738 47f8 Recovering log #3404
-2022/12/07-17:07:48.849 47f8 Reusing old log C:\Users\Home\Downloads\test\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/003404.log 
-2022/12/07-17:08:00.241 4300 Level-0 table #3431: started
-2022/12/07-17:08:00.271 4300 Level-0 table #3431: 1155555 bytes OK
-2022/12/07-17:08:00.273 4300 Delete type=0 #3404
-2022/12/07-17:08:00.276 4300 Compacting 1@0 + 0@1 files
-2022/12/07-17:08:00.298 4300 Generated table #3432@0: 11811 keys, 230665 bytes
-2022/12/07-17:08:00.310 4300 Generated table #3433@0: 4053 keys, 266884 bytes
-2022/12/07-17:08:00.310 4300 Compacted 1@0 + 0@1 files => 497549 bytes
-2022/12/07-17:08:00.311 4300 compacted to: files[ 0 2 27 0 0 0 0 ]
-2022/12/07-17:08:00.311 4300 Delete type=2 #3431
-2022/12/07-17:08:01.665 47f8 Compacting 1@1 + 9@2 files
-2022/12/07-17:08:01.735 47f8 Generated table #3434@1: 23218 keys, 2266708 bytes
-2022/12/07-17:08:01.806 47f8 Generated table #3435@1: 23186 keys, 2270944 bytes
-2022/12/07-17:08:01.890 47f8 Generated table #3436@1: 23067 keys, 2267699 bytes
-2022/12/07-17:08:01.970 47f8 Generated table #3437@1: 23224 keys, 2269017 bytes
-2022/12/07-17:08:02.088 47f8 Generated table #3438@1: 105189 keys, 2268049 bytes
-2022/12/07-17:08:02.223 47f8 Generated table #3439@1: 113937 keys, 2269103 bytes
-2022/12/07-17:08:02.394 47f8 Generated table #3440@1: 113438 keys, 2267353 bytes
-2022/12/07-17:08:02.485 47f8 Generated table #3441@1: 37593 keys, 2228189 bytes
-2022/12/07-17:08:02.541 47f8 Generated table #3442@1: 19821 keys, 1676195 bytes
-2022/12/07-17:08:02.541 47f8 Compacted 1@1 + 9@2 files => 19783257 bytes
-2022/12/07-17:08:02.542 47f8 compacted to: files[ 0 1 27 0 0 0 0 ]
-2022/12/07-17:08:04.394 46e8 Compacting 1@1 + 2@2 files
-2022/12/07-17:08:04.503 46e8 Generated table #3443@1: 29362 keys, 2254943 bytes
-2022/12/07-17:08:04.597 46e8 Generated table #3444@1: 23168 keys, 2268808 bytes
-2022/12/07-17:08:04.602 46e8 Generated table #3445@1: 164 keys, 17317 bytes
-2022/12/07-17:08:04.602 46e8 Compacted 1@1 + 2@2 files => 4541068 bytes
-2022/12/07-17:08:04.603 46e8 compacted to: files[ 0 0 28 0 0 0 0 ]
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3411
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3412
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3413
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3414
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3415
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3416
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3417
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3418
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3419
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3420
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3428
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3432
-2022/12/07-17:08:04.604 46e8 Delete type=2 #3433
+2022/12/09-19:59:58.074 1d98 Reusing MANIFEST F:\waapi\whatsappapi\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/MANIFEST-000001
+2022/12/09-19:59:58.075 1d98 Recovering log #3489
+2022/12/09-19:59:58.164 1d98 Reusing old log F:\waapi\whatsappapi\.wwebjs_auth\session\Default\IndexedDB\https_web.whatsapp.com_0.indexeddb.leveldb/003489.log 
+2022/12/09-20:00:10.856 3f18 Level-0 table #3507: started
+2022/12/09-20:00:10.878 3f18 Level-0 table #3507: 1117476 bytes OK
+2022/12/09-20:00:10.879 3f18 Delete type=0 #3489
+2022/12/09-20:00:11.792 1d98 Compacting 1@0 + 0@1 files
+2022/12/09-20:00:11.821 1d98 Generated table #3508@0: 11835 keys, 234692 bytes
+2022/12/09-20:00:11.830 1d98 Generated table #3509@0: 3056 keys, 170745 bytes
+2022/12/09-20:00:11.837 1d98 Generated table #3510@0: 36 keys, 2125 bytes
+2022/12/09-20:00:11.837 1d98 Compacted 1@0 + 0@1 files => 407562 bytes
+2022/12/09-20:00:11.837 1d98 compacted to: files[ 0 3 29 0 0 0 0 ]
+2022/12/09-20:00:11.838 1d98 Delete type=2 #3507
+2022/12/09-20:00:12.234 960 Compacting 1@1 + 10@2 files
+2022/12/09-20:00:12.336 960 Generated table #3511@1: 23191 keys, 2270398 bytes
+2022/12/09-20:00:12.396 960 Generated table #3512@1: 23235 keys, 2270875 bytes
+2022/12/09-20:00:12.464 960 Generated table #3513@1: 23179 keys, 2267243 bytes
+2022/12/09-20:00:12.552 960 Generated table #3514@1: 23229 keys, 2270034 bytes
+2022/12/09-20:00:12.620 960 Generated table #3515@1: 23083 keys, 2269516 bytes
+2022/12/09-20:00:12.681 960 Generated table #3516@1: 23189 keys, 2268552 bytes
+2022/12/09-20:00:12.776 960 Generated table #3517@1: 88599 keys, 2268682 bytes
+2022/12/09-20:00:12.879 960 Generated table #3518@1: 114038 keys, 2269642 bytes
+2022/12/09-20:00:12.977 960 Generated table #3519@1: 113619 keys, 2268684 bytes
+2022/12/09-20:00:13.060 960 Generated table #3520@1: 63893 keys, 2255303 bytes
+2022/12/09-20:00:13.064 960 Generated table #3521@1: 275 keys, 105876 bytes
+2022/12/09-20:00:13.064 960 Compacted 1@1 + 10@2 files => 22784805 bytes
+2022/12/09-20:00:13.065 960 compacted to: files[ 0 2 30 0 0 0 0 ]
+2022/12/09-20:00:14.202 3c68 Compacting 1@1 + 14@2 files
+2022/12/09-20:00:14.309 3c68 Generated table #3522@1: 28844 keys, 2257660 bytes
+2022/12/09-20:00:14.414 3c68 Generated table #3523@1: 23157 keys, 2265828 bytes
+2022/12/09-20:00:14.507 3c68 Generated table #3524@1: 23183 keys, 2271716 bytes
+2022/12/09-20:00:14.605 3c68 Generated table #3525@1: 23202 keys, 2268230 bytes
+2022/12/09-20:00:14.704 3c68 Generated table #3526@1: 23094 keys, 2274744 bytes
+2022/12/09-20:00:14.789 3c68 Generated table #3527@1: 23095 keys, 2270941 bytes
+2022/12/09-20:00:14.846 3c68 Generated table #3528@1: 23118 keys, 2269387 bytes
+2022/12/09-20:00:14.928 3c68 Generated table #3529@1: 23236 keys, 2268289 bytes
+2022/12/09-20:00:14.989 3c68 Generated table #3530@1: 23227 keys, 2268420 bytes
+2022/12/09-20:00:15.022 3c68 Generated table #3531@1: 11185 keys, 1093592 bytes
+2022/12/09-20:00:15.022 3c68 Compacted 1@1 + 14@2 files => 21508807 bytes
+2022/12/09-20:00:15.022 3c68 compacted to: files[ 0 1 26 0 0 0 0 ]
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3375
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3401
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3402
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3426
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3427
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3467
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3468
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3469
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3470
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3482
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3483
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3484
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3485
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3493
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3494
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3495
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3496
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3497
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3498
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3500
+2022/12/09-20:00:15.023 3c68 Delete type=2 #3501
+2022/12/09-20:00:15.024 3c68 Delete type=2 #3502
+2022/12/09-20:00:15.024 3c68 Delete type=2 #3503
+2022/12/09-20:00:15.024 3c68 Delete type=2 #3504
+2022/12/09-20:00:15.024 3c68 Delete type=2 #3508
+2022/12/09-20:00:15.024 3c68 Delete type=2 #3509
