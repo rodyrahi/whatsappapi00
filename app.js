@@ -14,6 +14,10 @@ let data_f = ["please"];
 let data_op = ["yes"];
 let data_opq = ["q2"];
 
+let user_question_data = []
+
+
+
 let data_op2 = ["no"];
 let data_op2q = [];
 
@@ -175,9 +179,11 @@ app.use(express.urlencoded());
 app.io = io;
 app.set("view engine", "ejs");
 app.get("/", function (req, res) {
+
   res.render("index", { data: data_n, message: data_m });
 });
 var mysql = require("mysql");
+const { name } = require("browser-sync");
 
 var con = mysql.createConnection({
   host: "181.215.79.245",
@@ -215,6 +221,37 @@ function insert_questions(
     console.log("Number of records inserted: " + result.affectedRows);
   });
 }
+
+
+
+
+get_users_ques_data('raj')
+
+function get_users_ques_data(user){
+
+ 
+  con.query("SELECT name, message FROM questions WHERE user=?",[user], function (err, result, fields) 
+  {
+    if (err) throw err;
+    // console.log(result);
+    user_question_data.push(result)
+    user_question_data[0].forEach(element => {
+      console.log(Object.values(element)[0]);
+      
+    });
+    console.log(user_question_data[0]);
+  });
+  
+}
+function get_users_ques_message(user){
+
+  con.query(sql, [values], function (err, result) {
+    if (err) throw err;
+    console.log("Number of records inserted: " + result.affectedRows);
+  });
+
+}
+
 
 app.post("/", function (req, res) {
   res.redirect("/");
