@@ -16,6 +16,12 @@
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"
     crossorigin="anonymous"></script>
+  <script>"https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.2.8/EventEmitter.min.js"
+  </script>
+
+    <script>
+      "https://cdnjs.cloudflare.com/ajax/libs/EventEmitter/5.2.8/EventEmitter.js"
+    </script>
 
   <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -34,10 +40,12 @@
     <div style="display: flex;">
 
 
-
+ 
       <% for(var i=0 ; i <data.length; i++) { %>
 
-        <!-- <li class="list-group-item"><%= data[i] %></li> -->
+   
+          
+       
         <div class="card" style="width: 10rem;">
           <div class="card-body">
             <h5 class="card-title"><%= Object.values(data[i])[0] %></h5>
@@ -47,10 +55,11 @@
                 <a href="#" class="card-link">Delete</a>
               </div>
             </div>
-
+        
             <% } %>
-
+     
             </div>
+          
             <div>
 
               <a class="btn btn-primary" data-bs-toggle="collapse"
@@ -179,7 +188,15 @@
             <script>
                 
     // const qrcode = require('qrcode');
-    $(document).ready(function() {
+    $(document).ready(function() 
+    {
+      
+      var emitter = EventEmitter();
+      emitter.on('qr_ready' , function(qr) {
+        
+      })
+
+      console.log("<%= qr %>");
     var socket = io();
     var code;
     socket.on('tx', function(data) {
@@ -189,30 +206,14 @@
       code = code.trim();
       code = code.padEnd(220);
      new QRCode(document.getElementById("qrcode"), data)
-    //  code = data
     });
     socket.on('ready', function(d) {
       document.getElementById("ready").innerHTML = d;
      console.log(d);
- 
-    //  code = data
     });
 
     
-    // code = code.trim();
-    // code = code.padEnd(220);
-    // console.log(code);
 
-    // const qrcode = new QRCode(document.getElementById('qrcode'), {
-    //   text: code,
-    //   width: 256,
-    //   height: 256,
-    //   colorDark: '#000',
-    //   colorLight: '#fff',
-    //   correctLevel: QRCode.CorrectLevel.H
-    // });
-    
-    // new QRCode(document.getElementById("qrcode"), code)
     });
   </script>
           </body>
