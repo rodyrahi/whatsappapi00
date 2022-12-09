@@ -1,11 +1,14 @@
-const express = require("express");
-const socketIO = require("socket.io");
-const port = process.env.PORT || 8000;
 
-const http = require("http");
-const app = express();
-const server = http.createServer(app);
-const io = socketIO(server);
+var con = require('./database.js')
+var {rou , io} = require('./router.js')
+
+
+
+
+
+
+
+
 
 let data_n = ["q1"];
 let data_m = ["hey"];
@@ -14,27 +17,16 @@ let data_f = ["please"];
 let data_op = ["yes"];
 let data_opq = ["q2"];
 
-let user_question_data = []
 
-
-
-let data_op2 = ["no"];
-let data_op2q = [];
 
 var list = [];
 var obj = {};
 
-for (let index = 0; index <= 1; index++) {
-  obj[index] = {
-    name: data_n[index],
-    message: data_m[index],
-    op1: data_op[index],
-  };
-}
 
-list.push(obj);
 
-console.log(list);
+
+
+
 
 const {
   Client,
@@ -62,6 +54,7 @@ const client = new Client({
   },
   authStrategy: new LocalAuth(),
 });
+
 client.initialize();
 
 io.on("connection", function (socket) {
@@ -175,28 +168,39 @@ client.on("message", async (msg) => {
   //   }
 });
 
-app.use(express.urlencoded());
-app.io = io;
-app.set("view engine", "ejs");
-app.get("/", function (req, res) {
 
-  res.render("index", { data: data_n, message: data_m });
-});
-var mysql = require("mysql");
+
+// app.get("/", function (req, res) {
+//   let data = []
+//   con.query("SELECT name, message FROM questions WHERE user=?",["raj"],
+//   function (err, result, fields ) {
+//     if (err) throw err;
+    
+//     result.forEach(element => {
+//         Object.values(element)[0]
+       
+//        console.log(data);
+//     });
+    
+//     }
+//   );
+//   res.render("index", {
+//     data: data_n,
+//     message: data_m,
+//     user_data: data,
+//   });
+// });
+// var mysql = require("mysql");
 const { name } = require("browser-sync");
 
-var con = mysql.createConnection({
-  host: "181.215.79.245",
-  user: "rajvendra_admin",
-  password: "Kamingo@1111",
-  database: "admin_sugardb",
-});
+// var con = mysql.createConnection({
+//   host: "181.215.79.245",
+//   user: "rajvendra_admin",
+//   password: "Kamingo@1111",
+//   database: "admin_sugardb",
+// });
 
-con.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected!");
-  if (err) throw err;
-});
+
 function insert_questions(
   name,
   tittle,
@@ -211,7 +215,7 @@ function insert_questions(
   user
 ) {
   var sql =
-    "INSERT INTO questions (name , message,tittle ,footer , op1 ,op2 ,op3,op1_q,op2_q,op3_q , user ) VALUES ?";
+    "INSERT INTO questions (name , message , tittle ,footer , op1 , op2 , op3 , op1_q , op2_q , op3_q , user ) VALUES ?";
   var values = [
     [name, message, tittle, footer, op1, op2, op3, op1_q, op1_q, op3_q, user],
   ];
@@ -225,67 +229,4 @@ function insert_questions(
 
 
 
-get_users_ques_data('raj')
 
-function get_users_ques_data(user){
-
- 
-  con.query("SELECT name, message FROM questions WHERE user=?",[user], function (err, result, fields) 
-  {
-    if (err) throw err;
-    // console.log(result);
-    user_question_data.push(result)
-    user_question_data[0].forEach(element => {
-      console.log(Object.values(element)[0]);
-      
-    });
-    console.log(user_question_data[0]);
-  });
-  
-}
-function get_users_ques_message(user){
-
-  con.query(sql, [values], function (err, result) {
-    if (err) throw err;
-    console.log("Number of records inserted: " + result.affectedRows);
-  });
-
-}
-
-
-app.post("/", function (req, res) {
-  res.redirect("/");
-  let data = req.body;
-  insert_questions(
-    data.name,
-    data.question,
-    data.question_title,
-    data.question_footer,
-    data.op1,
-    data.op2,
-    data.op3,
-    data.op1_q,
-    data.op2_q,
-    data.op3_q,
-    "raj"
-  );
-  data_t.push(data.question_title);
-  data_f.push(data.question_footer);
-  data_n.push(data.name);
-  data_m.push(data.question);
-  data_op.push(data.op1);
-  data_opq.push(data.op1_q);
-
-  console.log(data_n);
-  console.log(data_m);
-  console.log(data_opq);
-
-  console.log(data_t);
-  console.log(data_f);
-
-  console.log(data);
-});
-
-server.listen(port, function () {
-  console.log("App running on *: " + port);
-});
