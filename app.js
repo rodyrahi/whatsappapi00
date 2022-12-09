@@ -190,12 +190,25 @@ con.connect(function (err) {
   if (err) throw err;
   console.log("Connected!");
   if (err) throw err;
-
-
 });
-function insert_questions(name ,tittle ,  message  ,footer , op1 ,op2 ,op3 , user ) {
-  var sql = "INSERT INTO questions (name , message,tittle) VALUES ?";
-  var values = [[name] , [message] , [tittle] ];
+function insert_questions(
+  name,
+  tittle,
+  message,
+  footer,
+  op1,
+  op2,
+  op3,
+  op1_q,
+  op2_q,
+  op3_q,
+  user
+) {
+  var sql =
+    "INSERT INTO questions (name , message,tittle ,footer , op1 ,op2 ,op3,op1_q,op2_q,op3_q , user ) VALUES ?";
+  var values = [
+    [name, message, tittle, footer, op1, op2, op3, op1_q, op1_q, op3_q, user],
+  ];
 
   con.query(sql, [values], function (err, result) {
     if (err) throw err;
@@ -203,30 +216,38 @@ function insert_questions(name ,tittle ,  message  ,footer , op1 ,op2 ,op3 , use
   });
 }
 
+app.post("/", function (req, res) {
+  res.redirect("/");
+  let data = req.body;
+  insert_questions(
+    data.name,
+    data.question,
+    data.question_title,
+    data.question_footer,
+    data.op1,
+    data.op2,
+    data.op3,
+    data.op1_q,
+    data.op2_q,
+    data.op3_q,
+    "raj"
+  );
+  data_t.push(data.question_title);
+  data_f.push(data.question_footer);
+  data_n.push(data.name);
+  data_m.push(data.question);
+  data_op.push(data.op1);
+  data_opq.push(data.op1_q);
 
+  console.log(data_n);
+  console.log(data_m);
+  console.log(data_opq);
 
-  app.post("/", function (req, res) {
-    res.redirect("/");
-    let data = req.body;
-    insert_questions(data.name , data.question ,  data.question_title , data.question_footer);
-    data_t.push(data.question_title);
-    data_f.push(data.question_footer);
-    data_n.push(data.name);
-    data_m.push(data.question);
-    data_op.push(data.op1);
-    data_opq.push(data.op1_q);
+  console.log(data_t);
+  console.log(data_f);
 
-    console.log(data_n);
-    console.log(data_m);
-    console.log(data_opq);
-
-    console.log(data_t);
-    console.log(data_f);
-
-    console.log(data);
-  });
-
-
+  console.log(data);
+});
 
 server.listen(port, function () {
   console.log("App running on *: " + port);
