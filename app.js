@@ -77,9 +77,34 @@ function find_op(m) {
 
 client.on("message", async (msg) => {
   console.log("MESSAGE RECEIVED", msg.body);
-  con.query('SELECT op1 , op2  , op3 FROM questions', function (err, rows, fields) {
+
+  con.query('SELECT name ,op1 , op2  , op3 , op1_q , op2_q , op3_q FROM questions', function (err, rows, fields) {
     if (err) throw err;
-    console.log('The solution is: ', rows[0].solution);
+    rows.forEach(element => {
+      
+      function getKeyByValue(object, value) {
+        return Object.keys(object).find(key => object[key] === value);
+      }
+      console.log( getKeyByValue(element , msg.body) );
+      
+      if ( getKeyByValue(element , msg.body) === 'op1' ) {
+        let q = element["op1_q"]
+        con.query('SELECT * FROM questions', function (err, rows, fields) {
+          rows.forEach(element => {
+            if ( element["name"] === q ) {
+              
+            let button = new Buttons(element["message"],[{body:element["op1"]},{body:element["op2"]},{body:element["op3"]}],element["title"],element["footer"]);
+            client.sendMessage(msg.from, button);
+            }
+
+           
+          });
+
+        });
+
+      }
+      
+    });
   });
 
 

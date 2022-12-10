@@ -44,19 +44,9 @@ app.set("view engine", "ejs");
 
 // app.use('/', (req, res) => {
 //   let code;
-client.on("qr", (qr) => {
-  console.log("QR RECEIVED", qr);
-  console.log(qr);
-  var sql =
-  "INSERT INTO client (qr) VALUES ?";
-  var values = [[qr]];
-  con.query(sql, [values], function (err, result) {
-  if (err) throw err;
-  console.log("Number of records inserted: " + result.affectedRows);
-});
 
 
-});
+
 
 // });
 
@@ -64,7 +54,7 @@ app.get('/', function (req, res, next) {
   let code
    con.query("SELECT name, message FROM questions WHERE user=?",["raj"],
     function (err, result, fields) {
-      res.render('index' , {data : result , qr:code})
+      res.render('index' , {data : result })
     }
   );
 })
@@ -91,7 +81,14 @@ function insert_questions(
 
 
 io.on("connection", function (socket) {
-  
+
+  client.on("qr", (qr) => {
+    console.log("QR RECEIVED", qr);
+    console.log(qr);
+    socket.emit("qr", qr);
+  });
+
+
   client.on("ready", () => {
     socket.emit("ready", "Hii bot is ready");
     console.log("Client is ready!");

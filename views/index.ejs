@@ -32,7 +32,7 @@
 
   <body>
     <img src="" alt="">
-    <h3 id="ready">Connecting</h3>
+    <h3 id="ready">Connecting </h3>
     <div class="d-flex justify-content-center">
       <div class="m-3" id="qrcode"></div>
     </div>
@@ -191,21 +191,26 @@
     $(document).ready(function() 
     {
       
-      var emitter = EventEmitter();
-      emitter.on('qr_ready' , function(qr) {
+      // var emitter = EventEmitter();
+      // emitter.on('qr_ready' , function(qr) {
         
-      })
+      // })
 
-      console.log("<%= qr %>");
     var socket = io();
     var code;
-    socket.on('tx', function(data) {
-     console.log(data);
-     console.log("hey");
-     code = data
+    socket.on('qr', function(data) {
+
+      console.log(data);
+ 
+  
+      code = data
       code = code.trim();
       code = code.padEnd(220);
-     new QRCode(document.getElementById("qrcode"), data)
+      new QRCode(document.getElementById("qrcode"), code)
+    });
+
+    socket.on('tx', function(data) {
+
     });
     socket.on('ready', function(d) {
       document.getElementById("ready").innerHTML = d;
