@@ -81,6 +81,8 @@ client.on("message", async (msg) => {
   con.query('SELECT name ,op1 , op2  , op3 , op1_q , op2_q , op3_q FROM questions', function (err, rows, fields) {
     if (err) throw err;
     rows.forEach(element => {
+
+
       
       function getKeyByValue(object, value) {
         return Object.keys(object).find(key => object[key] === value);
@@ -92,16 +94,33 @@ client.on("message", async (msg) => {
         con.query('SELECT * FROM questions', function (err, rows, fields) {
           rows.forEach(element => {
             if ( element["name"] === q ) {
-              
             let button = new Buttons(element["message"],[{body:element["op1"]},{body:element["op2"]},{body:element["op3"]}],element["title"],element["footer"]);
             client.sendMessage(msg.from, button);
             }
-
-           
           });
-
         });
-
+      }
+      if ( getKeyByValue(element , msg.body) === 'op2' ) {
+        let q = element["op2_q"]
+        con.query('SELECT * FROM questions', function (err, rows, fields) {
+          rows.forEach(element => {
+            if ( element["name"] === q ) {
+            let button = new Buttons(element["message"],[{body:element["op1"]},{body:element["op2"]},{body:element["op3"]}],element["title"],element["footer"]);
+            client.sendMessage(msg.from, button);
+            }
+          });
+        });
+      }
+      if ( getKeyByValue(element , msg.body) === 'op3' ) {
+        let q = element["op3_q"]
+        con.query('SELECT * FROM questions', function (err, rows, fields) {
+          rows.forEach(element => {
+            if ( element["name"] === q ) {
+            let button = new Buttons(element["message"],[{body:element["op1"]},{body:element["op2"]},{body:element["op3"]}],element["title"],element["footer"]);
+            client.sendMessage(msg.from, button);
+            }
+          });
+        });
       }
       
     });
