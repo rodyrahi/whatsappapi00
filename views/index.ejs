@@ -188,8 +188,7 @@
             <script>
                 
     // const qrcode = require('qrcode');
-    $(document).ready(function() 
-    {
+    
       
       // var emitter = EventEmitter();
       // emitter.on('qr_ready' , function(qr) {
@@ -199,10 +198,7 @@
     var socket = io();
     var code;
     socket.on('qr', function(data) {
-
       console.log(data);
- 
-  
       code = data
       code = code.trim();
       code = code.padEnd(220);
@@ -219,10 +215,9 @@
 
     
 
-    });
+ 
   </script>
           </body>
-
 
 
 
