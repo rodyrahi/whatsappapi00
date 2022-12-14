@@ -105,8 +105,18 @@ client.on("message", async (msg) => {
     });
 
     if (! found_question ) {
-      let button = new Buttons("message", [{ body: "op1" }, { body: "op2" }, { body: "op3" }], "title", "footer");
+
+
+      var sql = "SELECT * FROM questions WHERE user = 'raj' AND isfirst = 'yes'";
+
+      con.query(sql, function(err, results ){
+            if (err){ 
+              throw err;
+            }
+            console.log( results[0]["op1"] );
+      let button = new Buttons(results[0]["message"], [{ body: results[0]["op1"] }, { body: results[0]["op2"] }, { body: results[0]["op3"] }], results[0]["tittle"], results[0]["footer"]);
       client.sendMessage(msg.from, button);
+    })
       }
   });
 
@@ -114,7 +124,3 @@ client.on("message", async (msg) => {
 
  
   })
-
- 
-
-

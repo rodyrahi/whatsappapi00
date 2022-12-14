@@ -1,4 +1,3 @@
-
 const EventEmitter = require('events')
 var express = require('express')
 const http = require("http");
@@ -64,15 +63,15 @@ app.post("/", function (req, res) {
   res.redirect("/");
   let data = req.body;
   insert_questions(data.name,data.question,data.question_title,data.question_footer,
-    data.op1,data.op2,data.op3,data.op1_q,data.op2_q,data.op3_q,"raj");
+    data.op1,data.op2,data.op3,data.op1_q,data.op2_q,data.op3_q,"raj",data.isfirst);
   console.log(data);
 });
 
 function insert_questions(
-  name,tittle,message,footer,op1,op2,op3,op1_q,op2_q,op3_q,user) {
+  name,tittle,message,footer,op1,op2,op3,op1_q,op2_q,op3_q,user,isfirst) {
   var sql =
-    "INSERT INTO questions (name , message , tittle ,footer , op1 , op2 , op3 , op1_q , op2_q , op3_q , user ) VALUES ?";
-  var values = [[name, message, tittle, footer, op1, op2, op3, op1_q, op2_q, op3_q, user],];
+    "INSERT INTO questions (name , message , tittle ,footer , op1 , op2 , op3 , op1_q , op2_q , op3_q , user , isfirst ) VALUES ?";
+  var values = [[name, message, tittle, footer, op1, op2, op3, op1_q, op2_q, op3_q, user,isfirst ],];
   con.query(sql, [values], function (err, result) {
     if (err) throw err;
     console.log("Number of records inserted: " + result.affectedRows);
