@@ -113,7 +113,6 @@ client.on("message", async (msg) => {
             if (err){ 
               throw err;
             }
-            console.log( results[0]["op1"] );
       let button = new Buttons(results[0]["message"], [{ body: results[0]["op1"] }, { body: results[0]["op2"] }, { body: results[0]["op3"] }], results[0]["tittle"], results[0]["footer"]);
       client.sendMessage(msg.from, button);
     })
