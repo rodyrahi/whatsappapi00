@@ -53,7 +53,7 @@
             <h5 class="card-title"><%= Object.values(data[i])[0] %></h5>
               <h6 class="card-subtitle mb-2 text-muted">Message</h6>
               <p class="card-text"><%= Object.values(data[i])[1] %></p>
-                <a href="/get/<%= Object.values(data[i])[1]%>" class="card-link">Edit</a>
+                <a href="/edit/<%= Object.values(data[i])[0]%>" class="card-link">Edit</a>
                 <a href="#" class="card-link">Delete</a>
               </div>
             </div>
@@ -80,7 +80,7 @@
 
 
 
-                <form method="POST" action="/">
+                <form method="POST" action="/add">
                   <div class="m-3">
                     <div class="mb-3">
                       <label>isfirst </label>
@@ -140,7 +140,7 @@
               <div class="collapse" id="question_collapse">
 
 
-                <form method="POST" action="/">
+                <form method="POST" action="/add">
                   <div class="m-3">
                     <div class="mb-3">
                       <label>Question Name </label>

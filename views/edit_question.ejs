@@ -30,42 +30,41 @@
 
 
 
-    <form method="POST" action="/">
+    <form method="POST" action="/edit/<%=Object.values(data[0])[1] %> ">
       <div class="m-3">
         <div class="mb-3">
           <label>isfirst </label>
-          <input type="text" name="isfirst" id="isfirst" class="form-control" />
+          <input type="text" name="isfirst" id="isfirst" class="form-control" value="<%=Object.values(data[0])[12] %>"/>
           <label>Question Name </label>
-          <input type="text" name="name" id="name" class="form-control" />
+          <input type="text" name="name" id="name" class="form-control" value="<%=Object.values(data[0])[1] %>" />
         </div>
         <div class="mb-3">
           <label>Message Title</label>
-          <input type="text" rows="3" name="question_title" id="question_title" class="form-control" />
+          <input type="text" rows="3" name="tittle" id="tittle" class="form-control" value="<%=Object.values(data[0])[2] %>" />
           <label>Message Body</label>
-          <textarea type="text" rows="3" name="question" id="question" class="form-control"></textarea>
+          <textarea type="text" rows="3" name="message" id="message" class="form-control" ><%=Object.values(data[0])[3] %></textarea>
           <label>Message Footer</label>
-          <input type="text" rows="3" name="question_footer" id="question_footer" class="form-control" />
+          <input type="text" rows="3" name="footer" id="footer" class="form-control" value="<%=Object.values(data[0])[4] %>" />
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text">Option 1 :</span>
-          <input type="text" name="op1" id="op1" class="form-control" />
+          <input type="text" name="op1" id="op1" class="form-control" value="<%=Object.values(data[0])[5] %>"/>
           <span class="input-group-text">Question</span>
-          <input type="text" name="op1_q" id="op1_q" class="form-control" />
+          <input type="text" name="op1_q" id="op1_q" class="form-control" value="<%=Object.values(data[0])[6] %>"/>
 
           <span class="input-group-text">Option 2 :</span>
-          <input type="text" name="op2" id="op2" class="form-control" />
+          <input type="text" name="op2" id="op2" class="form-control" value="<%=Object.values(data[0])[7] %>" />
           <span class="input-group-text">Question</span>
-          <input type="text" name="op2_q" id="op2_q" class="form-control" />
+          <input type="text" name="op2_q" id="op2_q" class="form-control" value="<%=Object.values(data[0])[8] %>"/>
           <span class="input-group-text">Option 3 :</span>
-          <input type="text" name="op3" id="op3" class="form-control" />
+          <input type="text" name="op3" id="op3" class="form-control"value="<%=Object.values(data[0])[9] %>" />
           <span class="input-group-text">Question</span>
-          <input type="text" name="op3_q" id="op3_q" class="form-control" />
+          <input type="text" name="op3_q" id="op3_q" class="form-control"value="<%=Object.values(data[0])[10] %>" />
         </div>
 
 
         <div class="mb-3">
-          <input type="submit" name="submit_button" class="btn
-                        btn-primary" value="update" />
+          <input type="submit" name="submit_button" class="btn btn-primary" value="update" />
         </div>
     </form>
   </div>
