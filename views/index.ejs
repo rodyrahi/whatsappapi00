@@ -48,10 +48,10 @@
    
           
        
-        <div class="card" style="width: 10rem;">
+        <div class="card m-1" style="width: 10rem;">
           <div class="card-body">
-            <h5 class="card-title"><%= Object.values(data[i])[0] %></h5>
-              <p class="card-text"><%= Object.values(data[i])[1] %></p>
+            <p class="card-title"><%= Object.values(data[i])[0] %></p>
+              <p class="card-text" style="font-size: 0.8rem;"><%= Object.values(data[i])[1] %></p>
                 <a href="/edit/<%= Object.values(data[i])[0]%>" class="card-link">Edit</a>
                 <a href="#" class="card-link">Delete</a>
               </div>
