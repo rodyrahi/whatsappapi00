@@ -67,6 +67,7 @@ app.get("/edit/:name", function (req, res, next) {
       function (err, result, fields) {
         res.render("edit_question", { data: rows , data2: result });
 
+
       }
     );
 
