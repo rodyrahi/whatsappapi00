@@ -20,9 +20,17 @@ function find_op(q, msg ) {
 
     rows.forEach(element => {
       if (element["name"] === q) {
-        let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }, { body: element["op3"] }], element["title"], element["footer"]);
-        client.sendMessage(msg.from, button);
-        return
+        if (element["op3"] === '') {
+          let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }], element["title"], element["footer"]);
+          client.sendMessage(msg.from, button);
+          return
+        }
+        else{
+          let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }, { body: element["op3"] }], element["title"], element["footer"]);
+          client.sendMessage(msg.from, button);
+          return
+        }
+       
       }
     });
  
@@ -113,8 +121,16 @@ client.on("message", async (msg) => {
             if (err){ 
               throw err;
             }
-      let button = new Buttons(results[0]["message"], [{ body: results[0]["op1"] }, { body: results[0]["op2"] }, { body: results[0]["op3"] }], results[0]["tittle"], results[0]["footer"]);
-      client.sendMessage(msg.from, button);
+            console.log("this",results[0]["op3"]);
+            if (results[0]["op3"] === '') {
+              let button = new Buttons(results[0]["message"], [{ body: results[0]["op1"] }, { body: results[0]["op2"] }], results[0]["tittle"], results[0]["footer"]);
+              client.sendMessage(msg.from, button);
+            } else {
+              let button = new Buttons(results[0]["message"], [{ body: results[0]["op1"] }, { body: results[0]["op2"] }, { body: results[0]["op3"] }], results[0]["tittle"], results[0]["footer"]);
+              client.sendMessage(msg.from, button);
+            }
+
+     
     })
       }
   });
