@@ -9,6 +9,7 @@ const {
   ClientInfo,
   Buttons,
   LocalAuth,
+ 
 } = require("whatsapp-web.js");
 const { localsName } = require("ejs");
 
@@ -20,6 +21,7 @@ function find_op(q, msg ) {
 
     rows.forEach(element => {
       if (element["name"] === q) {
+        
         let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }, { body: element["op3"] }], element["title"], element["footer"]);
         client.sendMessage(msg.from, button);
         return
