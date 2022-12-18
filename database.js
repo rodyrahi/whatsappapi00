@@ -1,10 +1,14 @@
 var mysql = require("mysql");
+
+
 var connection = mysql.createConnection({
   host: "181.215.79.245",
   user: "raj_sugardb",
   password: "Kamingo@11",
   database: "raj_sugardb",
-  charset:"utf8mb4"
+  charset:"utf8mb4",
+  timeout: 60000
+
 });
 connection.connect((err) => {
   if (err) {

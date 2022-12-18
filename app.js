@@ -13,6 +13,7 @@ const {
 const { localsName } = require("ejs");
 
 
+
 function find_op(q, msg ) {
 
   con.query('SELECT * FROM questions', function (err, rows, fields) {
@@ -20,16 +21,24 @@ function find_op(q, msg ) {
 
     rows.forEach(element => {
       if (element["name"] === q) {
-        if (element["op3"] === '') {
-          let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }], element["title"], element["footer"]);
-          client.sendMessage(msg.from, button);
-          return
+        if (element["type" ]=== 'file') {
+
+            send_message(element['op1'] , msg)
+        
+
+        } else {
+          if (element["op3"] === '') {
+            let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }], element["title"], element["footer"]);
+            client.sendMessage(msg.from, button);
+            return
+          }
+          else{
+            let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }, { body: element["op3"] }], element["title"], element["footer"]);
+            client.sendMessage(msg.from, button);
+            return
+          }
         }
-        else{
-          let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }, { body: element["op3"] }], element["title"], element["footer"]);
-          client.sendMessage(msg.from, button);
-          return
-        }
+    
        
       }
     });
@@ -40,15 +49,24 @@ function find_op(q, msg ) {
 
 
 }
-function print(callback) {  
-  let code = "yes"
-  return callback(code);
-}
-print(function(result){
 
-  console.log(result);
-  //rest of your code goes in here
+
+
+function send_message(q , msg) {
+  con.query(`SELECT * FROM questions WHERE name="${q}" AND user='raj'`, function (err, element, fields) {
+    if (element['type'] === 'file' ) {
+      const media = MessageMedia.fromFilePath('./bird.png');
+      client.sendMessage(msg.from, media);
+      // send_message(element['op1'] , msg)
+      
+    } else {
+      let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }, { body: element["op3"] }], element["title"], element["footer"]);
+      client.sendMessage(msg.from, button);
+    }
+   
 });
+
+}
 
 function get_data(call){
       
@@ -82,6 +100,12 @@ client.on("message", async (msg) => {
    let found = get_data( function (results) {
   
     results.forEach(element => {
+
+        if (element['type'] === 'file') {
+          send_message(element['op1'])
+        } else {
+          
+     
     
         if (getKeyByValue(element, msg.body ) === 'op1') {
         let q = element["op1_q"]
@@ -108,6 +132,7 @@ client.on("message", async (msg) => {
           // console.log(false);
           // return false
         }
+      }
       return true
           
     });

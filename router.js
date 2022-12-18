@@ -9,6 +9,7 @@ const server = http.createServer(app);
 const port = process.env.PORT || 8000;
 const io = socketIO(server);
 const emitter = new EventEmitter();
+app.use(express.urlencoded());
 
 const { Client, LocalAuth, MessageMedia, Buttons } = require("whatsapp-web.js");
 const { render } = require("pug");
@@ -33,7 +34,6 @@ const client = new Client({
 
 client.initialize();
 
-app.use(express.urlencoded());
 app.io = io;
 
 app.set("view engine", "ejs");
