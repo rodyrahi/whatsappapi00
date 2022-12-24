@@ -41,6 +41,63 @@ const { localsName } = require("ejs");
 
 // }
 
+// function sql_query(query,callback) {
+//   con.query(query
+//     ,
+//     function (err, element, fields) {
+//     return callback(element)
+//     }
+//   );
+// }
+// sql_query(`SELECT * FROM questions WHERE name="${q}" AND user='raj'`,function(result){
+
+//   console.log(result);
+// });
+
+
+function send_buttons(element , msg) {
+  if (element["op3"] === "") {
+    let button = new Buttons(
+      element["message"],
+      [{ body: element["op1"] }, { body: element["op2"] }],
+      element["tittle"],
+      element["footer"]
+    );
+    client.sendMessage(msg.from, button);
+  } else {
+    let button = new Buttons(
+      element["message"],
+      [
+        { body: element["op1"] },
+        { body: element["op2"] },
+        { body: element["op3"] },
+      ],
+      element["tittle"],
+      element["footer"]
+    );
+    client.sendMessage(msg.from, button);
+  }
+}
+function send_list(element , msg) {
+  let list = []
+
+  let j = element["op3"]
+  list = j.split(',')
+
+  
+  let button = new Buttons(
+    element["message"],
+    [
+      { body: element["op1"] },
+      { body: element["op2"] },
+      {  body: list[0], url: list },
+    ],
+    element["tittle"],
+    element["footer"]
+  );
+  client.sendMessage(msg.from, button);
+}
+
 function next_message(q, msg) {
   con.query(
     `SELECT * FROM questions WHERE name="${q}" AND user='raj'`,
@@ -52,18 +109,7 @@ function next_message(q, msg) {
         console.log(element[0]['op1_q']);
         next_message(element[0]['op1_q'] , msg)
       } else {
-        
-        let button = new Buttons(
-          element[0]["message"],
-          [
-            { body: element[0]["op1"] },
-            { body: element[0]["op2"] },
-            { body: element[0]["op3"] },
-          ],
-          element[0]["title"],
-          element[0]["footer"]
-        );
-        client.sendMessage(msg.from, button);
+        send_buttons(element[0] , msg)
       }
     }
   );
@@ -78,40 +124,20 @@ function send_message(q, msg) {
         client.sendMessage(msg.from, media);
        console.log(element[0]['op1_q']);
       next_message(element[0]['op1_q'] , msg)
-      } else {
-        let button = new Buttons(
-          element[0]["message"],
-          [
-            { body: element[0]["op1"] },
-            { body: element[0]["op2"] },
-            { body: element[0]["op3"] },
-          ],
-          element[0]["title"],
-          element[0]["footer"]
-        );
-        client.sendMessage(msg.from, button);
+      } 
+      else if (element[0]["type"] === "list") {
+        console.log("list");
+        send_list(element[0] , msg)
+      }
+      else 
+      {
+        send_buttons(element[0] , msg)
       }
     }
   );
 }
 
-// function get_data(call){
 
-//   var sql = "SELECT name ,op1 , op2  , op3 , op1_q , op2_q , op3_q FROM questions";
-
-//   con.query(sql, function(err, results ){
-//         if (err){
-//           throw err;
-//         }
-
-//         return call(results);
-//     })
-
-// }
-
-// function getKeyByValue(object, value) {
-//   return Object.keys(object).find(key => object[key] === value);
-// }
 
 client.on("message", async (msg) => {
   console.log("MESSAGE RECEIVED", msg.body);
@@ -130,7 +156,22 @@ client.on("message", async (msg) => {
         send_message(element["op1_q"], msg);
 
         return true;
-      } else {
+      } 
+     else if (element["op2"] === msg.body) {
+        found_question = true;
+
+        send_message(element["op2_q"], msg);
+
+        return true;
+      } 
+      else if (element["op3"] === msg.body) {
+        found_question = true;
+
+        send_message(element["op3_q"], msg);
+
+        return true;
+      } 
+      else {
       }
     });
 
