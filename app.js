@@ -7,6 +7,7 @@ const {
   ClientInfo,
   Buttons,
   LocalAuth,
+  List,
 } = require("whatsapp-web.js");
 const { localsName } = require("ejs");
 
@@ -55,7 +56,7 @@ const { localsName } = require("ejs");
 // });
 
 
-function send_buttons(element , msg) {
+function send_buttons(element, msg) {
   if (element["op3"] === "") {
     let button = new Buttons(
       element["message"],
@@ -78,24 +79,30 @@ function send_buttons(element , msg) {
     client.sendMessage(msg.from, button);
   }
 }
-function send_list(element , msg) {
+function send_list(element, msg) {
+  console.log(element);
+
   let list = []
 
   let j = element["op3"]
   list = j.split(',')
-
-  
-  let button = new Buttons(
-    element["message"],
+  const productsList = new List(
+    "Here's our list of products at 50% off",
+    "View all products",
     [
-      { body: element["op1"] },
-      { body: element["op2"] },
-      {  body: list[0], url: list },
+      {
+        title: "Products list",
+        rows: [
+          { id: "apple", title: "Apple" },
+        ],
+      },
     ],
-    element["tittle"],
-    element["footer"]
+    "Please select a product"
   );
-  client.sendMessage(msg.from, button);
+  client.sendMessage(msg.from, productsList);
+
+
+
 }
 
 function next_message(q, msg) {
@@ -107,9 +114,9 @@ function next_message(q, msg) {
         const media = MessageMedia.fromFilePath(element[0]["message"]);
         client.sendMessage(msg.from, media);
         console.log(element[0]['op1_q']);
-        next_message(element[0]['op1_q'] , msg)
+        next_message(element[0]['op1_q'], msg)
       } else {
-        send_buttons(element[0] , msg)
+        send_buttons(element[0], msg)
       }
     }
   );
@@ -122,16 +129,15 @@ function send_message(q, msg) {
       if (element[0]["type"] === "file") {
         const media = MessageMedia.fromFilePath(element[0]["message"]);
         client.sendMessage(msg.from, media);
-       console.log(element[0]['op1_q']);
-      next_message(element[0]['op1_q'] , msg)
-      } 
-      else if (element[0]["type"] === "list") {
-        console.log("list");
-        send_list(element[0] , msg)
+        console.log(element[0]['op1_q']);
+        next_message(element[0]['op1_q'], msg)
       }
-      else 
-      {
-        send_buttons(element[0] , msg)
+      else if (element[0]["type"] === "list") {
+
+        send_list(element[0], msg)
+      }
+      else {
+        send_buttons(element[0], msg)
       }
     }
   );
@@ -156,21 +162,21 @@ client.on("message", async (msg) => {
         send_message(element["op1_q"], msg);
 
         return true;
-      } 
-     else if (element["op2"] === msg.body) {
+      }
+      else if (element["op2"] === msg.body) {
         found_question = true;
 
         send_message(element["op2_q"], msg);
 
         return true;
-      } 
+      }
       else if (element["op3"] === msg.body) {
         found_question = true;
 
         send_message(element["op3_q"], msg);
 
         return true;
-      } 
+      }
       else {
       }
     });
