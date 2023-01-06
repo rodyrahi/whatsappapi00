@@ -1,6 +1,7 @@
 var con = require("./database.js");
 var { rou, io, client } = require("./router.js");
 
+
 const {
   Client,
   MessageMedia,
@@ -55,8 +56,23 @@ const { localsName } = require("ejs");
 //   console.log(result);
 // });
 
+function setlast_question(q) {
+  var sql =
+    `UPDATE client SET lastq="${q}"  WHERE name='raj' `;
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+
+    console.log('last question is : ' + q);
+  });
+}
+
+
+
+
 
 function send_buttons(element, msg) {
+  console.log("button is send");
   if (element["op3"] === "") {
     let button = new Buttons(
       element["message"],
@@ -64,6 +80,7 @@ function send_buttons(element, msg) {
       element["tittle"],
       element["footer"]
     );
+    setlast_question(element["name"])
     client.sendMessage(msg.from, button);
   } else {
     let button = new Buttons(
@@ -76,7 +93,10 @@ function send_buttons(element, msg) {
       element["tittle"],
       element["footer"]
     );
+    setlast_question(element["name"])
     client.sendMessage(msg.from, button);
+
+
   }
 }
 function send_list(element, msg) {
@@ -103,17 +123,38 @@ function send_list(element, msg) {
 
 
 
+
 }
 
-function send_input(element, msg) {
-
-  
+function insert_number_in_db(number) {
+  var sql =
+    "INSERT INTO input_tb (number) VALUES ?";
+  var values = [
+    [
+      number
+    ],
+  ];
+  con.query(sql, [values], function (err, result) {
+    if (err) throw err;
+    console.log("Number of records inserted: " + result.affectedRows);
+  });
 }
 
-function next_message(q, msg) {
+async function send_input(element, msg) {
+
+  console.log("input");
+  const contact = await msg.getContact();
+  const chat = await msg.getChat();
+  console.log(contact["id"]["user"]);
+  setlast_question(element["name"])
+
+
+}
+
+async function next_message(q, msg) {
   con.query(
     `SELECT * FROM questions WHERE name="${q}" AND user='raj'`,
-    function (err, element, fields) {
+    async function (err, element, fields) {
       console.log(element[0]["type"]);
       if (element[0]["type"] === "file") {
         const media = MessageMedia.fromFilePath(element[0]["message"]);
@@ -127,11 +168,11 @@ function next_message(q, msg) {
   );
 }
 
-function send_message(q, msg) {
+async function send_message(q, msg) {
   con.query(
     `SELECT * FROM questions WHERE name="${q}" AND user='raj'`,
-    function (err, element, fields) {
-      
+    async function (err, element, fields) {
+
       if (element[0]["type"] === "file") {
         const media = MessageMedia.fromFilePath(element[0]["message"]);
         client.sendMessage(msg.from, media);
@@ -143,17 +184,12 @@ function send_message(q, msg) {
         send_list(element[0], msg)
       }
       else if (element[0]["type"] === "input") {
-        console.log("input");
-        let info = client.info;
-        client.sendMessage(msg.from, `
-            *Connection info*
-            User name: ${info.pushname}
-            My number: ${info.wid.user}
-            Platform: ${info.platform}
-        `);
+        send_input(element[0], msg)
+
+
       }
       else {
-        
+
         send_buttons(element[0], msg)
       }
     }
@@ -163,16 +199,21 @@ function send_message(q, msg) {
 
 
 client.on("message", async (msg) => {
+
   console.log("MESSAGE RECEIVED", msg.body);
   let found_question = false;
+
+
 
   var sql = "SELECT* FROM questions WHERE user='raj'";
 
   con.query(sql, function (err, results) {
-    if (err) {
-      throw err;
-    }
+    if (err) throw err;
+
     results.forEach((element) => {
+
+
+
       if (element["op1"] === msg.body) {
         found_question = true;
 
@@ -195,46 +236,35 @@ client.on("message", async (msg) => {
         return true;
       }
       else {
+
+        var sql =
+          `SELECT lastq FROM client   WHERE name="raj"`;
+
+        con.query(sql, (err, result, fields) => {
+          if (err) throw err;
+
+          var sql =
+            `SELECT type FROM questions   WHERE name="${result[0]["lastq"]}" AND user='raj' `;
+
+          con.query(sql, (err, result, fields) => {
+            if (err) throw err;
+
+            console.log(result[0]["type"]);
+
+            console.log(msg.body);
+
+           
+          });
+
+        });
+
+
+
       }
+
+
+
     });
-
-    // let found_question = false
-
-    //  let found = get_data( function (results) {
-
-    //   results.forEach(element => {
-
-    //       if (element['type'] === 'file') {
-    //         send_message(element['op1'] , msg)
-    //       } else {
-
-    //       if (getKeyByValue(element, msg.body ) === 'op1') {
-    //       let q = element["op1_q"]
-    //       find_op(q, msg)
-    //       found_question = true
-    //       return true
-
-    //       }
-    //       else if (getKeyByValue(element, msg.body ) === 'op1') {
-    //         let q = element["op2_q"]
-    //         find_op(q, msg)
-    //         found_question = true
-    //         return true
-    //         // console.log(q);
-    //         }
-    //       else if (getKeyByValue(element, msg.body ) === 'op1') {
-    //           let q = element["op3_q"]
-    //           find_op(q, msg)
-    //           found_question = true
-    //           return true
-    //           // console.log(q);
-    //           }
-    //       else{
-    //         // console.log(false);
-    //         // return false
-    //       }
-    //     }
-    //     return true
 
     console.log(found_question);
 
