@@ -131,6 +131,7 @@ function send_message(q, msg) {
   con.query(
     `SELECT * FROM questions WHERE name="${q}" AND user='raj'`,
     function (err, element, fields) {
+      
       if (element[0]["type"] === "file") {
         const media = MessageMedia.fromFilePath(element[0]["message"]);
         client.sendMessage(msg.from, media);
@@ -152,6 +153,7 @@ function send_message(q, msg) {
         `);
       }
       else {
+        
         send_buttons(element[0], msg)
       }
     }
