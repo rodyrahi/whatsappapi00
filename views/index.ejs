@@ -47,17 +47,17 @@
     
        
             <div class="col-xl-3 col-xxl-3 p-0">
+              <div class="card m-1" >
+                <div class="card-body" style="padding: 0.5rem;">
+                  <p class="card-title"><%= Object.values(data[i])[0] %></p>
+                    <p class="card-text text-truncate" style="font-size: 0.8rem;"><%= Object.values(data[i])[1] %></p>
+                      <a href="/edit/<%= Object.values(data[i])[0]%>" class="card-link">Edit</a>
+                      <a href="#" class="card-link">Delete</a>
+                    </div>
+                  </div>
 
            
-            <div class="card m-1" >
-              <div class="card-body" style="padding: 0.5rem;">
-                <!-- <p><%= Object.values(data[i])[2] %></p> -->
-                <p class="card-title"><%= Object.values(data[i])[0] %></p>
-                  <p class="card-text text-truncate" style="font-size: 0.8rem;"><%= Object.values(data[i])[1] %></p>
-                    <a href="/edit/<%= Object.values(data[i])[0]%>" class="card-link">Edit</a>
-                    <a href="#" class="card-link">Delete</a>
-                  </div>
-                </div>
+            
               </div>
 
                 <% } %>
