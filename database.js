@@ -3,7 +3,7 @@ var mysql = require("mysql");
 var isWin = process.platform === "win32";
 
 if (!isWin) {
-  Host = "localhost"
+  Host = "127.0.0.1"
   
 }
 console.log(Host);
