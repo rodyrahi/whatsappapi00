@@ -105,6 +105,11 @@ function send_list(element, msg) {
 
 }
 
+function send_input(element, msg) {
+
+  
+}
+
 function next_message(q, msg) {
   con.query(
     `SELECT * FROM questions WHERE name="${q}" AND user='raj'`,
@@ -135,6 +140,16 @@ function send_message(q, msg) {
       else if (element[0]["type"] === "list") {
 
         send_list(element[0], msg)
+      }
+      else if (element[0]["type"] === "input") {
+        console.log("input");
+        let info = client.info;
+        client.sendMessage(msg.from, `
+            *Connection info*
+            User name: ${info.pushname}
+            My number: ${info.wid.user}
+            Platform: ${info.platform}
+        `);
       }
       else {
         send_buttons(element[0], msg)
