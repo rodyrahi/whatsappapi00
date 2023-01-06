@@ -10,7 +10,7 @@ const port = process.env.PORT || 8000;
 const io = socketIO(server);
 const emitter = new EventEmitter();
 app.use(express.urlencoded());
-
+var bot_ready = false
 const { Client, LocalAuth, MessageMedia, Buttons } = require("whatsapp-web.js");
 const { render } = require("pug");
 const client = new Client({
@@ -94,11 +94,11 @@ app.post("/edit/:name", function (req, res) {
     //     [signature,email, password, req.params.id], (err, rows) => {
     // const { signature, email, password } = req.body;
     console.log(req.body);
-    const {name,tittle,message,footer,op1,op2,op3,op1_q,op2_q, op3_q,isfirst,} = req.body;
+    const {name,tittle,message,footer,op1,op2,op3,op1_q,op2_q, op3_q,isfirst,type} = req.body;
     const nameq = req.params.name
     
 
-    const query = `UPDATE questions SET name="${name}",tittle="${tittle}", message="${message}", footer="${footer}", op1="${op1}",op2="${op2}" ,op3 = "${op3}" ,op1_q = "${op1_q}" ,op2_q = "${op2_q}",op3_q ="${op3_q}",isfirst = "${isfirst}"   WHERE name="${nameq}"`
+    const query = `UPDATE questions SET name="${name}",tittle="${tittle}", message="${message}", footer="${footer}", op1="${op1}",op2="${op2}" ,op3 = "${op3}" ,op1_q = "${op1_q}" ,op2_q = "${op2_q}",op3_q ="${op3_q}",isfirst = "${isfirst}",type = "${type}"   WHERE name="${nameq}"`
     // const id = req.params.id;
     con.query(query,
       (err, rows) => {
@@ -173,6 +173,10 @@ function insert_questions( name,tittle,message,footer,op1,op2,op3,op1_q,op2_q,op
 
 
 io.on("connection", function (socket) {
+  if (bot_ready) {
+    socket.emit("ready", "Hii bot is ready");
+
+  }
   client.on("qr", (qr) => {
     console.log("QR RECEIVED", qr);
     console.log(qr);
@@ -180,6 +184,7 @@ io.on("connection", function (socket) {
   });
 
   client.on("ready", () => {
+    bot_ready = true
     socket.emit("ready", "Hii bot is ready");
     console.log("Client is ready!");
   });
