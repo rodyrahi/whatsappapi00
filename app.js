@@ -126,12 +126,12 @@ function send_list(element, msg) {
 
 }
 
-function insert_number_in_db(number) {
+function insert_number_in_db(number , m) {
   var sql =
-    "INSERT INTO input_tb (number) VALUES ?";
+    "INSERT INTO input_tb (number , input) VALUES ?";
   var values = [
     [
-      number
+      number , m
     ],
   ];
   con.query(sql, [values], function (err, result) {
@@ -142,11 +142,16 @@ function insert_number_in_db(number) {
 
 async function send_input(element, msg) {
 
-  console.log("input");
-  const contact = await msg.getContact();
-  const chat = await msg.getChat();
-  console.log(contact["id"]["user"]);
+  // const contact = await msg.getContact();
+  // const chat = await msg.getChat();
+  // console.log(contact["id"]["user"]);
+
   setlast_question(element["name"])
+  console.log(msg["from"]);
+  
+  // client.sendMessage(msg, element["message"] );
+
+
 
 
 }
@@ -184,6 +189,7 @@ async function send_message(q, msg) {
         send_list(element[0], msg)
       }
       else if (element[0]["type"] === "input") {
+        msg.reply('pong');
         send_input(element[0], msg)
 
 
@@ -236,25 +242,31 @@ client.on("message", async (msg) => {
         return true;
       }
       else {
+        
 
         var sql =
           `SELECT lastq FROM client   WHERE name="raj"`;
 
         con.query(sql, (err, result, fields) => {
           if (err) throw err;
-
+          console.log(result[0]["type"]);
+          if (result[0]["type"] === "input") {
+            
+          
           var sql =
-            `SELECT type FROM questions   WHERE name="${result[0]["lastq"]}" AND user='raj' `;
+            `SELECT * FROM questions   WHERE name="${result[0]["lastq"]}" AND user='raj' `;
 
-          con.query(sql, (err, result, fields) => {
+          con.query(sql, (err, element, fields) => {
             if (err) throw err;
+            
+            found_question = true;
 
-            console.log(result[0]["type"]);
-
-            console.log(msg.body);
+             console.log(element[0]["op1_q"]);
+             send_message(element[0]["op1_q"], msg);
 
            
           });
+        }
 
         });
 
