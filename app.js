@@ -213,7 +213,7 @@ client.on("message", async (msg) => {
             
             found_question = true;
 
-             console.log(element[0]["op1_q"] + yoo);
+             console.log(element[0]["op1_q"] );
              send_message(element[0]["op1_q"], msg);
 
            
