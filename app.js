@@ -150,7 +150,7 @@ async function send_input(element, msg) {
   console.log(msg["from"]);
   
   // client.sendMessage(msg, element["message"] );
-
+  client.sendMessage(msg.from, element["message"]);
 
 
 
