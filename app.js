@@ -11,51 +11,6 @@ const {
   List,
 } = require("whatsapp-web.js");
 const { localsName } = require("ejs");
-
-// function find_op(q, msg ) {
-
-//   con.query('SELECT * FROM questions', function (err, rows, fields) {
-
-//     rows.forEach(element => {
-//       if (element["name"] === q) {
-
-//         if (element["type"]=== 'file') {
-//           console.log(element['op1_q']);
-//             send_message(element['op1_q'] , msg)
-
-//         } else {
-//           if (element["op3"] === '') {
-//             let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }], element["title"], element["footer"]);
-//             client.sendMessage(msg.from, button);
-//             return
-//           }
-//           else{
-//             let button = new Buttons(element["message"], [{ body: element["op1"] }, { body: element["op2"] }, { body: element["op3"] }], element["title"], element["footer"]);
-//             client.sendMessage(msg.from, button);
-//             return
-//           }
-//         }
-
-//       }
-//     });
-
-//   });
-
-// }
-
-// function sql_query(query,callback) {
-//   con.query(query
-//     ,
-//     function (err, element, fields) {
-//     return callback(element)
-//     }
-//   );
-// }
-// sql_query(`SELECT * FROM questions WHERE name="${q}" AND user='raj'`,function(result){
-
-//   console.log(result);
-// });
-
 function setlast_question(q) {
   var sql =
     `UPDATE client SET lastq="${q}"  WHERE name='raj' `;
@@ -142,14 +97,11 @@ function insert_number_in_db(number , m) {
 
 async function send_input(element, msg) {
 
-  // const contact = await msg.getContact();
-  // const chat = await msg.getChat();
-  // console.log(contact["id"]["user"]);
+ 
 
   setlast_question(element["name"])
   console.log(msg["from"]);
   
-  // client.sendMessage(msg, element["message"] );
   client.sendMessage(msg.from, element["message"]);
 
 
@@ -261,7 +213,7 @@ client.on("message", async (msg) => {
             
             found_question = true;
 
-             console.log(element[0]["op1_q"]);
+             console.log(element[0]["op1_q"] + yoo);
              send_message(element[0]["op1_q"], msg);
 
            
