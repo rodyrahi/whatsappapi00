@@ -11,49 +11,69 @@ const {
   List,
 } = require("whatsapp-web.js");
 const { localsName } = require("ejs");
+
+
+
 function setlast_question(q) {
-  var sql =
-    `UPDATE client SET lastq="${q}"  WHERE name='raj' `;
-
-  con.query(sql, function (err, result) {
-    if (err) throw err;
-
-    console.log('last question is : ' + q);
+  const sql = `UPDATE client SET lastq = ? WHERE name = 'raj'`;
+  con.query(sql, [q], (err, result) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`last question is: ${q}`);
   });
 }
 
 
 
-
-
 function send_buttons(element, msg) {
   console.log("button is send");
-  if (element["op3"] === "") {
-    let button = new Buttons(
-      element["message"],
-      [{ body: element["op1"] }, { body: element["op2"] }],
-      element["tittle"],
-      element["footer"]
-    );
-    setlast_question(element["name"])
-    client.sendMessage(msg.from, button);
-  } else {
-    let button = new Buttons(
-      element["message"],
-      [
-        { body: element["op1"] },
-        { body: element["op2"] },
-        { body: element["op3"] },
-      ],
-      element["tittle"],
-      element["footer"]
-    );
-    setlast_question(element["name"])
-    client.sendMessage(msg.from, button);
-
-
+  const options = [{ body: element["op1"] },
+  { body: element["op2"] },
+  ];
+  if (element["op3"] !== "") {
+    options.push({ body: element["op3"] });
   }
+  const button = new Buttons(
+    element["message"],
+    options,
+    element["tittle"],
+    element["footer"]
+  );
+  setlast_question(element["name"]);
+  client.sendMessage(msg.from, button);
 }
+
+
+
+// function send_buttons(element, msg) {
+//   console.log("button is send");
+//   if (element["op3"] === "") {
+//     let button = new Buttons(
+//       element["message"],
+//       [{ body: element["op1"] }, { body: element["op2"] }],
+//       element["tittle"],
+//       element["footer"]
+//     );
+//     setlast_question(element["name"])
+//     client.sendMessage(msg.from, button);
+//   } else {
+//     let button = new Buttons(
+//       element["message"],
+//       [
+//         { body: element["op1"] },
+//         { body: element["op2"] },
+//         { body: element["op3"] },
+//       ],
+//       element["tittle"],
+//       element["footer"]
+//     );
+//     setlast_question(element["name"])
+//     client.sendMessage(msg.from, button);
+
+
+//   }
+// }
 function send_list(element, msg) {
   console.log(element);
 
@@ -81,12 +101,12 @@ function send_list(element, msg) {
 
 }
 
-function insert_number_in_db(number , m) {
+function insert_number_in_db(number, m) {
   var sql =
     "INSERT INTO input_tb (number , input) VALUES ?";
   var values = [
     [
-      number , m
+      number, m
     ],
   ];
   con.query(sql, [values], function (err, result) {
@@ -96,13 +116,24 @@ function insert_number_in_db(number , m) {
 }
 
 async function send_input(element, msg) {
+  client.sendMessage(msg.from, "Please enter the value you want to store:");
+
+  client.on("message", async (msg) => {
+    setlast_question(element["name"]);
+
+    client.sendMessage(msg.from, "Please enter the value you want to store:"+ msg.body);
+
+
+  });
+
 
  
 
-  setlast_question(element["name"])
-  console.log(msg["from"]);
-  
-  client.sendMessage(msg.from, element["message"]);
+
+  // setlast_question(element["name"])
+  // console.log(msg["from"]);
+
+  // client.sendMessage(msg.from, element["message"]);
 
 
 
@@ -125,31 +156,50 @@ async function next_message(q, msg) {
   );
 }
 
+
+// async function send_message(q, msg) {
+//   try {
+//     const [element] =  con.query(
+//       `SELECT * FROM questions WHERE name = ? AND user = 'raj'`,
+//       [q]
+//     );
+//     if (element[0]["type"] === "file") {
+//       const media = MessageMedia.fromFilePath(element[0]["message"]);
+//       await client.sendMessage(msg.from, media);
+//       console.log(element[0]['op1_q']);
+//       next_message(element[0]['op1_q'], msg)
+//     } else if (element[0]["type"] === "list") {
+//       send_list(element[0], msg)
+//     } else if (element[0]["type"] === "input") {
+//       // await msg.reply('pong');
+//       send_input(element[0], msg)
+//     } else {
+//       send_buttons(element[0], msg)
+//     }
+//   } catch (err) {
+//     throw err;
+//   }
+// }
+
+
 async function send_message(q, msg) {
   con.query(
     `SELECT * FROM questions WHERE name="${q}" AND user='raj'`,
     async function (err, element, fields) {
 
       if (element[0]["type"] === "file") {
-        const media = MessageMedia.fromFilePath(element[0]["message"]);
-        client.sendMessage(msg.from, media);
-        console.log(element[0]['op1_q']);
-        next_message(element[0]['op1_q'], msg)
-      }
-      else if (element[0]["type"] === "list") {
-
-        send_list(element[0], msg)
-      }
-      else if (element[0]["type"] === "input") {
-        msg.reply('pong');
-        send_input(element[0], msg)
-
-
-      }
-      else {
-
-        send_buttons(element[0], msg)
-      }
+      const media = MessageMedia.fromFilePath(element[0]["message"]);
+      await client.sendMessage(msg.from, media);
+      console.log(element[0]['op1_q']);
+      next_message(element[0]['op1_q'], msg)
+    } else if (element[0]["type"] === "list") {
+      send_list(element[0], msg)
+    } else if (element[0]["type"] === "input") {
+      // await msg.reply('pong');
+      send_input(element[0], msg)
+    } else {
+      send_buttons(element[0], msg)
+    }
     }
   );
 }
@@ -194,7 +244,7 @@ client.on("message", async (msg) => {
         return true;
       }
       else {
-        
+
 
         var sql =
           `SELECT lastq FROM client   WHERE name="raj"`;
@@ -203,24 +253,27 @@ client.on("message", async (msg) => {
           if (err) throw err;
           console.log(result[0]["type"]);
           if (result[0]["type"] === "input") {
-            
-          
-          var sql =
-            `SELECT * FROM questions   WHERE name="${result[0]["lastq"]}" AND user='raj' `;
-
-          con.query(sql, (err, element, fields) => {
-            if (err) throw err;
-            
             found_question = true;
-
-             console.log(element[0]["op1_q"] );
-             send_message(element[0]["op1_q"], msg);
-
-           
+          }
           });
-        }
 
-        });
+
+        //     var sql =
+        //       `SELECT * FROM questions   WHERE name="${result[0]["lastq"]}" AND user='raj' `;
+
+        //     con.query(sql, (err, element, fields) => {
+        //       if (err) throw err;
+
+        //       found_question = true;
+
+        //       console.log(element[0]["op1_q"]);
+        //       send_message(element[0]["op1_q"], msg);
+
+
+        //     });
+        //   }
+
+        // });
 
 
 
@@ -261,6 +314,8 @@ client.on("message", async (msg) => {
             results[0]["tittle"],
             results[0]["footer"]
           );
+          setlast_question(element["name"]);
+
           client.sendMessage(msg.from, button);
         }
       });
