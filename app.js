@@ -121,7 +121,7 @@ async function send_input(element, msg) {
   client.on("message", async (msg) => {
     setlast_question(element["name"]);
 
-    client.sendMessage(msg.from, "Please enter the value you want to store:"+ msg.body);
+    client.sendMessage(msg.from, " value you stored:"+ msg.body);
 
 
   });
@@ -253,29 +253,10 @@ client.on("message", async (msg) => {
           if (err) throw err;
           console.log(result[0]["type"]);
           if (result[0]["type"] === "input") {
+            console.log("dope");
             found_question = true;
           }
           });
-
-
-        //     var sql =
-        //       `SELECT * FROM questions   WHERE name="${result[0]["lastq"]}" AND user='raj' `;
-
-        //     con.query(sql, (err, element, fields) => {
-        //       if (err) throw err;
-
-        //       found_question = true;
-
-        //       console.log(element[0]["op1_q"]);
-        //       send_message(element[0]["op1_q"], msg);
-
-
-        //     });
-        //   }
-
-        // });
-
-
 
       }
 
@@ -292,9 +273,8 @@ client.on("message", async (msg) => {
         "SELECT * FROM questions WHERE user = 'raj' AND isfirst = 'yes'";
 
       con.query(sql, function (err, results) {
-        if (err) {
-          throw err;
-        }
+        if (err) {throw err;}
+
         if (results[0]["op3"] === "") {
           let button = new Buttons(
             results[0]["message"],
@@ -302,6 +282,7 @@ client.on("message", async (msg) => {
             results[0]["tittle"],
             results[0]["footer"]
           );
+          setlast_question(results[0]["name"]);
           client.sendMessage(msg.from, button);
         } else {
           let button = new Buttons(
